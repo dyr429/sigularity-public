@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Lobster);
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
@@ -17,8 +18,10 @@ body {
 }
 
 h1 {
-    font-size: 200%;
+    font-size: 300%;
     margin: 0 0 15px 0;
+    font-family: 'Lobster', cursive;
+    text-align: center;
 }
 
 h2 {
@@ -78,3 +81,23 @@ select {
     left: 0;
     top: 0;
 }
+
+.glyphicon{
+    font-size: 30px;
+}
+#trigger-left{
+
+}
+
+#trigger-right{
+    float:right;
+}
+
+.triggers{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+

@@ -36,6 +36,7 @@
     "uglify-js": "2"
   },
   "dependencies": {
+    "bootstrap-slider": "^10.0.0",
     "d3-array": "^1.1.1",
     "d3-geo": "^1.6.3",
     "d3-scale-chromatic": "^1.1.1",

@@ -43,9 +43,9 @@ var percent = (function() {
 var body = d3.select("body"),
     stat = d3.select("#status");
 
-var fieldSelect = d3.select("#field")
+var fieldSelect = d3.select("#ex1")
     .on("change", function(e) {
-        field = fields[this.selectedIndex];
+        field = fields[this.value];
         location.hash = "#" + [field.id, year].join("/");
     });
 
@@ -277,3 +277,62 @@ function parseHash() {
         });
     }
 }
+
+
+
+var tabulate = function (data,columns) {
+    var table = d3.select('#panel-left').append('table')
+    var thead = table.append('thead')
+    var tbody = table.append('tbody')
+
+    thead.append('tr')
+        .selectAll('th')
+        .data(columns)
+        .enter()
+        .append('th')
+        .text(function (d) { return d })
+
+    var rows = tbody.selectAll('tr')
+        .data(data)
+        .enter()
+        .append('tr')
+
+    var cells = rows.selectAll('td')
+        .data(function(row) {
+            return columns.map(function (column) {
+                return { column: column, value: row[column] }
+            })
+        })
+        .enter()
+        .append('td')
+        .text(function (d) { return d.value })
+
+    return table;
+}
+
+d3.csv('data/nst_2011.csv',function (data) {
+    // append table test
+    var columns = ['table',' append',' test']
+    tabulate(data,columns)
+})
+
+
+
+
+
+$("#panel-right").slideReveal({
+    trigger: $("#trigger-right"),
+    position: "right",
+    width: "40%"
+});
+
+$("#panel-left").slideReveal({
+    trigger: $("#trigger-left"),
+    push: false,
+    overlay: true,
+    width: "40%"
+});
+
+$('#trigger-right').on('click', function() {
+    $("#container").toggleClass('side-mode');
+});

@@ -1,4 +1,5 @@
 .*.swp
 .DS_Store
 npm-debug.log
-.ideal
+.idea
+node_modules

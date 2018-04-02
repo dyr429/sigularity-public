@@ -3,23 +3,62 @@
   <head>
     <title>Sigularity</title>
     <meta charset="utf-8">
-    <meta property="og:image" content="placeholder.png">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="build/d3-cartogram.js"></script>
+    <!--fonts-->
+    <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--mystyle-->
     <link rel="stylesheet" href="css/home_style.css">
   </head>
   <body>
-  <div id='panel-left' style="background: #00bbff">Hello World!!,Im left</div>
-  <div id='panel-right' style="background: #00bbff">Hello World!!, Im right</div>
+  <!--left panel-->
+  <div id='panel-left' style="background-color: #00bbff">
+    <h2>Test table</h2>
+    <table style="width:100%">
+      <tr>
+        <th>States</th>
+        <th>Time</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>MN</td>
+        <td>3:00</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>MA</td>
+        <td>3:00</td>
+        <td>45</td>
+      </tr>
+      <tr>
+        <td>AK</td>
+        <td>3:00</td>
+        <td>80</td>
+      </tr>
+    </table>
+  </div>
+  <!--right panel-->
+  <div id='panel-right'>
+    <svg width="800" height="1000" id="right-svg"></svg>
+  </div>
+
+<!--center panel-->
     <div id="container">
-      <button id='trigger-left' style="margin-left: 30%;">Trigger</button>
-      <button id='trigger-right' style="margin-left: 30%;">Trigger</button>
+      <div class="triggers">
+        <span id='trigger-left' class="glyphicon glyphicon-align-justify"></span>
+        <span id='trigger-right'class="glyphicon glyphicon-pushpin"></span>
+      </div>
+
+      <!--cartogram-->
       <h1>Cartograms </h1>
       <form>
         <p>
-          <label>Scale by <select id="field"></select></label>
-          <label>in <select id="year"></select></label>
+          <!--<label>Scale by <select id="field"></select></label>-->
+          <!--<label>in <select id="year"></select></label>-->
           <span id="status"></span>
         </p>
       </form>
@@ -27,27 +66,94 @@
         <svg id="map"></svg>
       </div>
 
+      <input type="range" min="1" max="8" value="0" class="slider" id="ex1">
+
+
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+  <script src="build/d3-cartogram.js"></script>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="js/jquery.slidereveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
     <script src="js/home.js"></script>
   <script>
-      $("#panel-right").slideReveal({
-          trigger: $("#trigger-right"),
-          position: "right",
-          width: "40%"
+      //define chart margins
+      let svg = d3.select("svg"),
+          margin = {top: 50, right: 50, bottom: 40, left: 80},
+          width = svg.attr("width") - margin.left - margin.right,
+          height = svg.attr("height") - margin.top - margin.bottom,
+          g = svg.append("g").attr("transform", "translate(" + margin.left + "," +margin.top + ")");
+
+
+      //define scales
+      let	x = d3.scaleLinear().rangeRound([0, width]),
+          y = d3.scaleBand().rangeRound([height, 0]).padding(0.2);
+
+      //load data
+      d3.csv("data/nst_2011_bar_sample.csv", function(d){
+          d.value = +d.value;
+          return d;
+      }, function (error, data) {
+          if(error) throw error;
+
+          //sort data
+          data.sort(function(a,b) { return a.value - b.value; });
+
+          //define domains based on data
+          x.domain([0, d3.max(data, function(d) { return d.value; })]);
+          y.domain(data.map(function(d) { return d.states; }));
+
+          //append x axis to svg
+          g.append("g")
+              .attr("class", "x-axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(d3.axisBottom(x))
+              .append("text")
+              .attr("y", 30)
+              .attr("x", 650)
+              .attr("dy", "0.5em")
+              .style("fill", "black");
+
+          //append y axis to svg
+          g.append("g")
+              .attr("class", "y-axis")
+              .call(d3.axisLeft(y));
+
+          //append rects to svg based on data
+          g.selectAll(".bar")
+              .data(data)
+              .enter()
+              .append("rect")
+              .attr("class", "bar")
+              .attr("x", 0)
+              .attr("y", function(d) { return y(d.states); })
+              .attr("height", y.bandwidth())
+              .attr("width", function(d) { return x(d.value); })
+              .style("fill", "#2ca25f");
       });
 
-      $("#panel-left").slideReveal({
-          trigger: $("#trigger-left"),
-          push: false,
-          overlay: true,
-          width: "40%"
-      });
+      //define chart title to svg
+      let title = svg.append("g")
+          .attr("class", "title");
+      title.append("text")
+          .attr("x", (width/1.5))
+          .attr("y", 40)
+          .attr("text-anchor", "middle")
+          .style("font", "20px sans-serif")
+          .text("Test bar");
 
-      $('#trigger-right').on('click', function() {
-          $("#container").toggleClass('side-mode');
-      });
+      //append source data to svg
+      let source = svg.append("g")
+          .attr("class", "source");
+      source.append("text")
+          .attr("x", 10)
+          .attr("y", 500)
+          .attr("text-anchor", "left")
+          .style("font", "12px monospace");
   </script>
+  </body>
   </body>
 </html>
