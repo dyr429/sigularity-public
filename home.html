@@ -13,48 +13,31 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!--mystyle-->
     <link rel="stylesheet" href="css/home_style.css">
+    <link rel="stylesheet" href="css/buttons.css">
   </head>
   <body>
   <!--left panel-->
-  <div id='panel-left' style="background-color: #00bbff">
-    <h2>Test table</h2>
-    <table style="width:100%">
-      <tr>
-        <th>States</th>
-        <th>Time</th>
-        <th>Value</th>
-      </tr>
-      <tr>
-        <td>MN</td>
-        <td>3:00</td>
-        <td>4</td>
-      </tr>
-      <tr>
-        <td>MA</td>
-        <td>3:00</td>
-        <td>45</td>
-      </tr>
-      <tr>
-        <td>AK</td>
-        <td>3:00</td>
-        <td>80</td>
-      </tr>
-    </table>
+  <div id='panel-left'>
   </div>
   <!--right panel-->
   <div id='panel-right'>
-    <svg width="800" height="1000" id="right-svg"></svg>
+    <!--<svg width="800" height="1000" id="right-svg"></svg>-->
   </div>
 
 <!--center panel-->
     <div id="container">
       <div class="triggers">
         <span id='trigger-left' class="glyphicon glyphicon-align-justify"></span>
-        <span id='trigger-right'class="glyphicon glyphicon-pushpin"></span>
+        <span id='trigger-right'class="glyphicon glyphicon-pushpin" onclick="drawBarChart()"></span>
       </div>
 
       <!--cartogram-->
       <h1>Cartograms </h1>
+      <select id="colorPick" onchange="changeColor()">
+        <option selected="selected" value="blue">Blue Scale
+        <option value="red">Red Scale
+        <option value="green">Green Sclae
+      </select>
       <form>
         <p>
           <!--<label>Scale by <select id="field"></select></label>-->
@@ -67,6 +50,8 @@
       </div>
 
       <input type="range" min="1" max="8" value="0" class="slider" id="ex1">
+      <p>Value: <span id="Indicator"></span></p>
+      <a onclick="startPlay()" title="Play video" class="play" id="playButton"></a>
 
 
     </div>
@@ -79,81 +64,8 @@
     <script src="js/jquery.slidereveal.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
     <script src="js/home.js"></script>
-  <script>
-      //define chart margins
-      let svg = d3.select("svg"),
-          margin = {top: 50, right: 50, bottom: 40, left: 80},
-          width = svg.attr("width") - margin.left - margin.right,
-          height = svg.attr("height") - margin.top - margin.bottom,
-          g = svg.append("g").attr("transform", "translate(" + margin.left + "," +margin.top + ")");
+    <script src="js/home_animation.js"></script>
 
-
-      //define scales
-      let	x = d3.scaleLinear().rangeRound([0, width]),
-          y = d3.scaleBand().rangeRound([height, 0]).padding(0.2);
-
-      //load data
-      d3.csv("data/nst_2011_bar_sample.csv", function(d){
-          d.value = +d.value;
-          return d;
-      }, function (error, data) {
-          if(error) throw error;
-
-          //sort data
-          data.sort(function(a,b) { return a.value - b.value; });
-
-          //define domains based on data
-          x.domain([0, d3.max(data, function(d) { return d.value; })]);
-          y.domain(data.map(function(d) { return d.states; }));
-
-          //append x axis to svg
-          g.append("g")
-              .attr("class", "x-axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(d3.axisBottom(x))
-              .append("text")
-              .attr("y", 30)
-              .attr("x", 650)
-              .attr("dy", "0.5em")
-              .style("fill", "black");
-
-          //append y axis to svg
-          g.append("g")
-              .attr("class", "y-axis")
-              .call(d3.axisLeft(y));
-
-          //append rects to svg based on data
-          g.selectAll(".bar")
-              .data(data)
-              .enter()
-              .append("rect")
-              .attr("class", "bar")
-              .attr("x", 0)
-              .attr("y", function(d) { return y(d.states); })
-              .attr("height", y.bandwidth())
-              .attr("width", function(d) { return x(d.value); })
-              .style("fill", "#2ca25f");
-      });
-
-      //define chart title to svg
-      let title = svg.append("g")
-          .attr("class", "title");
-      title.append("text")
-          .attr("x", (width/1.5))
-          .attr("y", 40)
-          .attr("text-anchor", "middle")
-          .style("font", "20px sans-serif")
-          .text("Test bar");
-
-      //append source data to svg
-      let source = svg.append("g")
-          .attr("class", "source");
-      source.append("text")
-          .attr("x", 10)
-          .attr("y", 500)
-          .attr("text-anchor", "left")
-          .style("font", "12px monospace");
-  </script>
   </body>
   </body>
 </html>

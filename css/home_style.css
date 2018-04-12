@@ -1,10 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Lobster);
+html{
+    min-width: 20em;
+    overflow-x:scroll;
+}
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.4em;
     padding: 0;
     margin: 0;
+
 }
 
 #container {
@@ -13,8 +18,9 @@ body {
 }
 
 #container.side-mode{
-    width: 60%;
-    margin-right:0;
+    width: 800px;
+    margin-left:45%;
+
 }
 
 h1 {
@@ -99,5 +105,94 @@ select {
 }
 
 
+#panel-right {
+    margin-top: 30px;
+}
+
+#panel-left{
+    background-color: cornflowerblue;
+    overflow-y: scroll;
+}
+
+#panel-left td {
+    padding-left: 10px;
+    padding-top: 3px;
+}
+
+#panel-left table {
+    margin: 10px;
+}
+
+#panel-left th {
+    padding: 10px;
+}
+
+/*slider*/
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: dodgerblue;
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #dodgerblue;
+    cursor: pointer;
+}
+
+
+
+/*bar chart*/
+
+select {
+    display: block;
+
+}
+.bar {
+    fill: purple;
+    opacity: 0.8;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.toolTip {
+    position: absolute;
+    display: none;
+    min-width: 80px;
+    height: auto;
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px solid #6F257F;
+    padding: 14px;
+    text-align: center;
+}
+
+.bar:hover {
+    fill: greenyellow;
+}
 
 
