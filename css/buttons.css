@@ -7,7 +7,7 @@
     border-top: 50px solid transparent;
     border-bottom: 50px solid transparent;
     border-left: 60px solid #2c3e50;
-    margin: 100px auto 50px auto;
+    margin: 40px auto 50px auto;
     position: relative;
     z-index: 1;
     transition: all 0.3s;
@@ -55,6 +55,15 @@
     top: -40px;
     border-left: 50px solid #2c3e50;
     box-shadow: inset 30px 0 0 0 #f9f9f9;
+}
+
+
+#home,#menu2,#menu3{
+    padding:20px;
+}
+
+#menu3 p{
+    font-size: 20px;
 }
 
 

@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Sigularity</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Singularity</title>
     <meta charset="utf-8">
     <!--fonts-->
     <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -14,58 +17,253 @@
     <!--mystyle-->
     <link rel="stylesheet" href="css/home_style.css">
     <link rel="stylesheet" href="css/buttons.css">
-  </head>
-  <body>
-  <!--left panel-->
-  <div id='panel-left'>
-  </div>
-  <!--right panel-->
-  <div id='panel-right'>
-    <!--<svg width="800" height="1000" id="right-svg"></svg>-->
-  </div>
+    <link rel="stylesheet" href="css/style5.css">
+    <link rel="stylesheet" href="css/about.css">
+</head>
+<body>
 
-<!--center panel-->
-    <div id="container">
-      <div class="triggers">
-        <span id='trigger-left' class="glyphicon glyphicon-align-justify"></span>
-        <span id='trigger-right'class="glyphicon glyphicon-pushpin" onclick="drawBarChart()"></span>
-      </div>
 
-      <!--cartogram-->
-      <h1>Cartograms </h1>
-      <select id="colorPick" onchange="changeColor()">
-        <option selected="selected" value="blue">Blue Scale
-        <option value="red">Red Scale
-        <option value="green">Green Sclae
-      </select>
-      <form>
-        <p>
-          <!--<label>Scale by <select id="field"></select></label>-->
-          <!--<label>in <select id="year"></select></label>-->
-          <span id="status"></span>
-        </p>
-      </form>
-      <div id="map-container">
-        <svg id="map"></svg>
-      </div>
 
-      <input type="range" min="1" max="8" value="0" class="slider" id="ex1">
-      <p>Value: <span id="Indicator"></span></p>
-      <a onclick="startPlay()" title="Play video" class="play" id="playButton"></a>
 
+<h2 class="BigTitle">Singularity</h2>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#home">Home</a></li>
+    <li><a href="#menu1">Cartogram</a></li>
+    <li><a href="#menu2">Small Multiple</a></li>
+    <li><a href="#menu3">About</a></li>
+</ul>
+
+
+<div class="tab-content">
+  <!--tab Home-------------------------------------------------------------->
+    <div id="home" class="tab-pane fade in active">
+        <h3>HOME</h3>
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Copy URL to Data ^_^: </span>
+            <input type="text" class="form-control" placeholder="URL" aria-describedby="basic-addon1">
+        </div>
+        <button id="urlSubmitBtn" class="btn btn-info">Submit</button>
+    </div>
+
+    <!--tab cartogram-------------------------------------------------------------->
+    <div id="menu1" class="tab-pane fade">
+        <div class="wrapper" >
+            <!-- Sidebar Left Holder -->
+
+
+
+            <div id="sidebarLeft" class="active">
+                <div class="sidebar-header">
+                    <h1>Bar Chart</h1>
+                </div>
+                <div id='panel-right'>
+                    <!--<svg width="800" height="1000" id="right-svg"></svg>-->
+                </div>
+
+
+            </div>
+
+            <!-- sidebar right -->
+            <nav id="sidebarRight">
+                <div id="dismiss">
+                    <i class="glyphicon glyphicon-arrow-left"></i>
+                </div>
+
+                <div class="sidebar-header">
+                    <h3>Data</h3>
+
+
+                </div>
+                <div id='panel-left'>
+                </div>
+
+
+
+            </nav>
+
+
+
+
+
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <!-- collapse button -->
+                        <div class="navbar-header">
+
+                            <button type="button" id="sidebarCollapseLeft" class="navbar-btn sidebarCollapse active" onclick="initialBarChart()">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+                            <div class="nav-title">
+                                <h1>Cartogram</h1>
+                            </div>
+
+                            <button type="button" id="sidebarCollapseRight" class="navbar-btn sidebarCollapse active">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
+
+                        </div>
+                        <!-- collapsed -->
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                            </ul>
+                        </div>
+
+
+                        <div class="overlayMask"></div>
+
+
+
+                    </div>
+                </nav>
+                <div id="container">
+                    <!--cartogram-->
+                    <label>Color Scale: </label>
+                    <select id="colorPick" onchange="changeColor()">
+                        <option selected="selected" value="blue">Blue Scale
+                        <option value="red">Red Scale
+                        <option value="green">Green Sclae
+                    </select>
+                    <button class="addNew" onclick="addToSmallMultiple()">add to small multiple</button>
+                    <form>
+                        <p>
+                            <span id="status"></span>
+                        </p>
+                    </form>
+                    <div id="map-container">
+                        <svg id="map"></svg>
+                    </div>
+
+                    <input type="range" min="1" max="8" value="0" class="slider" id="ex1">
+                    <p>Value: <span id="Indicator"></span></p>
+                    <a onclick="startPlay()" title="Play video" class="play" id="playButton"></a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--small multiple tab-------------------------------------------------------------->
+    <div id="menu2" class="tab-pane fade">
+        <h3>Small Multiple</h3>  -  add from cartogram tab
+        <div class="small-multiple-container">
+            <canvas id="canvas1" width=800 height=500>
+            </canvas>
+            <canvas id="canvas2" width=800 height=500>
+            </canvas>
+            <canvas id="canvas3" width=800 height=500>
+            </canvas>
+            <canvas id="canvas4" width=800 height=500>
+            </canvas>
+        </div>
 
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="build/d3-cartogram.js"></script>
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="js/jquery.slidereveal.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
-    <script src="js/home.js"></script>
-    <script src="js/home_animation.js"></script>
 
-  </body>
-  </body>
+    <!--about tab-------------------------------------------------------------->
+    <div id="menu3" class="tab-pane fade">
+
+        <h3>About</h3>
+        <div class="wrapper-about">
+            <h1 class="pageTitle">Thank you</h1>
+            <p>Thank you for using cartogram generator  -  presented by Singularity@all rights revserved</p>
+            <h1 class="specialThanks">Special Thanks to Prof. Borkin and Shweta Oak</h1>
+        </div>
+
+        <div class="wrapper-about cards">
+            <div class="container">
+                <div class="card">
+                    <div class="front">
+                        <h2>Who Am I</h2>
+                        <img src="img/mario.png"/>
+                    </div>
+                    <div class="back">
+                        <div class="content">
+                            <h3 class="cardTitle">Yiren Ding</h3>
+                            <p>Northeastern University</p>
+                            <p>360 Huntington Ave, Boston, MA 02115</p>
+                            <p>Email: ding.yir[AT]husky.neu.edu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="card">
+                    <div class="front">
+                        <h2>Who Am I</h2>
+                        <img src="img/mario.png"/>
+                    </div>
+                    <div class="back">
+                        <div class="content">
+                            <h3 class="cardTitle">Di Zhong</h3>
+                            <p>Northeastern University</p>
+                            <p>360 Huntington Ave, Boston, MA 02115</p>
+                            <p>Email: zhong.di[AT]husky.neu.edu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+
+
+
+
+
+
+
+<!-- jQuery CDN -->
+<script src="https://code.jquery.com/jquery-1.12.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!-- Bootstrap Js CDN -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="build/d3-cartogram.js"></script>
+<script src="js/home.js"></script>
+<script src="js/home_animation.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapseLeft').on('click', function () {
+            $('#sidebarLeft').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+        $('#sidebarCollapseRight').on('click', function () {
+            $('#sidebarRight').addClass('active');
+            $('.overlayMask').fadeIn();
+            $('.collapse.in').toggleClass('in');
+            $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+
+        $('#dismiss, .overlayMask').on('click', function () {
+            $('#sidebarRight').removeClass('active');
+            $('.overlayMask').fadeOut();
+        });
+
+
+
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $(".nav-tabs a").click(function(){
+            $(this).tab('show');
+        });
+    });
+</script>
+</body>
 </html>

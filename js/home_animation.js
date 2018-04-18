@@ -5,3 +5,7 @@ $(document).ready(function() {
         return false;
     });
 });
+
+$('.card').click(function(){
+    $(this).toggleClass('flipped');
+});
