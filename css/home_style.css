@@ -114,8 +114,8 @@ select {
 }
 
 #panel-left{
-    background-color: cornflowerblue;
-    overflow-y: scroll;
+    /*background-color: cornflowerblue;*/
+    /*overflow-y: scroll;*/
 }
 
 #panel-left td {
@@ -130,6 +130,43 @@ select {
 #panel-left th {
     padding: 10px;
 }
+
+.color-input {
+    margin-top: 20px;
+    float: top;
+    font-size: 30px;
+    padding: 10px;
+}
+
+.color-input label {
+    font-size: 25px;
+    margin-top:10px;
+    margin-bottom: 15px;
+}
+
+.color-input h3{
+    display: block;
+    font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+    margin-top: 10px;
+}
+
+.shape-input {
+    margin-top: 20px;
+    float: top;
+    font-size: 30px;
+}
+
+.shape-input label {
+    font-size: 25px;
+    margin-top:10px;
+    margin-bottom: 15px;
+}
+
+.shape-input h3{
+    display: block;
+    font-family: "Montserrat", "Helvetica", Arial, sans-serif;
+}
+
 
 /*slider*/
 
@@ -201,7 +238,7 @@ select {
 }
 
 
-.input-group{
+#urlInput{
     margin: 0 auto;
     width: 60%;
     margin-top: 10%;
@@ -240,3 +277,27 @@ select {
 .addNew{
     float: right;
 }
+
+.sidebar-header h1{
+    margin: 10px;
+    margin-top: 25px;
+}
+
+.panel-input{
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+}
+
+label{
+    margin-top: 15px;
+    margin-left: 15px;
+}
+
+#setAnnotation{
+    text-align: center;
+    margin-top: 60px;
+    padding: 10px;
+}
+
+

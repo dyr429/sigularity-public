@@ -17,7 +17,7 @@
     <!--mystyle-->
     <link rel="stylesheet" href="css/home_style.css">
     <link rel="stylesheet" href="css/buttons.css">
-    <link rel="stylesheet" href="css/style5.css">
+    <link rel="stylesheet" href="css/panel_style.css">
     <link rel="stylesheet" href="css/about.css">
 </head>
 <body>
@@ -38,11 +38,14 @@
   <!--tab Home-------------------------------------------------------------->
     <div id="home" class="tab-pane fade in active">
         <h3>HOME</h3>
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Copy URL to Data ^_^: </span>
-            <input type="text" class="form-control" placeholder="URL" aria-describedby="basic-addon1">
+        <div id="urlInput" class="input-group">
+            <span class="input-group-addon" id="basic-addon1" >Copy URL to Data ^_^: </span>
+            <input type="text" class="form-control" placeholder="URL"
+                   value="https://gist.githubusercontent.com/dyr429/16791c611a56fe829b889527018bb147/raw/f47b15e3bebcaec80ad275f68137a972e2606ef7/tweets_withSA.csv"
+                   aria-describedby="basic-addon1"
+                    id="dataurl">
         </div>
-        <button id="urlSubmitBtn" class="btn btn-info">Submit</button>
+        <button id="urlSubmitBtn" class="btn btn-info" onclick="submitData()">Submit</button>
     </div>
 
     <!--tab cartogram-------------------------------------------------------------->
@@ -54,7 +57,7 @@
 
             <div id="sidebarLeft" class="active">
                 <div class="sidebar-header">
-                    <h1>Bar Chart</h1>
+                    <h1>Bar Chart</h1> <span class="glyphicon glyphicon-barcode"></span>
                 </div>
                 <div id='panel-right'>
                     <!--<svg width="800" height="1000" id="right-svg"></svg>-->
@@ -66,15 +69,71 @@
             <!-- sidebar right -->
             <nav id="sidebarRight">
                 <div id="dismiss">
-                    <i class="glyphicon glyphicon-arrow-left"></i>
+                    <i class="glyphicon glyphicon-arrow-right"></i>
                 </div>
 
                 <div class="sidebar-header">
-                    <h3>Data</h3>
+                    <h1>Config</h1><span class="glyphicon glyphicon-cog"></span>
 
 
                 </div>
                 <div id='panel-left'>
+
+
+                    <div class="color-input" align="center">
+                        <h3>Attribute for Color Channel</h3>
+                        <input type="radio" id="colorChoice1"
+                               name="color" value=0 checked="checked" onclick="tabulateColor(0)">
+                        <label for="colorChoice1">Total Tweets </label>
+
+                        <input type="radio" id="colorChoice2"
+                               name="color" value=1 onclick="tabulateColor(1)">
+                        <label for="colorChoice2">Percentage Change </label>
+
+                        <input type="radio" id="colorChoice3"
+                               name="color" value=2 onclick="tabulateColor(2)">
+                        <label for="colorChoice3">Emotion </label>
+                    </div>
+
+                    <div class="shape-input" align="center">
+                        <h3>Attribute for Shape Channel</h3>
+                        <input type="radio" id="shapeChoice1"
+                               name="shape" value=0 checked="checked" onclick="tabulateShape(0)">
+                        <label for="shapeChoice1">Total Tweets </label>
+
+                        <input type="radio" id="shapeChoice2"
+                               name="shape" value=1 onclick="tabulateShape(1)">
+                        <label for="shapeChoice2">Percentage Change </label>
+
+                        <input type="radio" id="shapeChoice3"
+                               name="shape" value=2 onclick="tabulateShape(2)">
+                        <label for="shapeChoice3">Emotion </label>
+                    </div>
+
+
+                    <label for="time-interval">Time Intervel:</label>
+                    <div class="input-group mb-3 panel-input">
+                        <div class="input-group-prepend">
+                        </div>
+                        <input type="text" class="form-control" id="time-interval" aria-describedby="basic-addon3">
+                    </div>
+
+                    <label for="shapeAttr">Attributes for shape</label>
+                    <div class="input-group mb-3 panel-input">
+                        <div class="input-group-prepend">
+                        </div>
+                        <input type="text" class="form-control" id="shapeAttr" aria-describedby="basic-addon3">
+                    </div>
+
+                    <label for="colorAttr">Attributes for Color</label>
+                    <div class="input-group mb-3 panel-input">
+                        <div class="input-group-prepend">
+                        </div>
+                        <input type="text" class="form-control" id="colorAttr" aria-describedby="basic-addon3">
+                    </div>
+
+                    <button id="setAnnotation" class="btn btn-info btn-block" onclick="setAnnotation()">Submit</button>
+
                 </div>
 
 
@@ -100,7 +159,7 @@
                                 <span></span>
                             </button>
                             <div class="nav-title">
-                                <h1>Cartogram</h1>
+                                <h1>Cartogram</h1> <span class="glyphicon glyphicon-map-marker"></span>
                             </div>
 
                             <button type="button" id="sidebarCollapseRight" class="navbar-btn sidebarCollapse active">
@@ -111,6 +170,7 @@
 
                         </div>
                         <!-- collapsed -->
+
 
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-right">
@@ -142,8 +202,9 @@
                         <svg id="map"></svg>
                     </div>
 
-                    <input type="range" min="1" max="8" value="0" class="slider" id="ex1">
-                    <p>Value: <span id="Indicator"></span></p>
+                    <input type="range" min="1" max="15" value="0" class="slider" id="ex1">
+                    <p>Current Raw: <span id="IndicatorRaw"></span></p>
+                    <p>Current: <span id="Indicator"></span></p>
                     <a onclick="startPlay()" title="Play video" class="play" id="playButton"></a>
 
                 </div>

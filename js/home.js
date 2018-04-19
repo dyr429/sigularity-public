@@ -1,44 +1,41 @@
 
-
-
-// set initial value
 var percent = (function() {
         var fmt = d3.format(".2f");
         return function(n) { return fmt(n) + "%"; };
     })(),
     fields = [
         {name: "(no scale)", id: "none"},
-        // {name: "Census Population", id: "censuspop", key: "CENSUS%dPOP", years: [2010]},
-        // {name: "Estimate Base", id: "censuspop", key: "ESTIMATESBASE%d", years: [2010]},
-        {name: "Population Estimate", id: "popest", key: "POPESTIMATE%d"},
-        {name: "Population Change", id: "popchange", key: "NPOPCHG_%d", format: "+,"},
-        {name: "Births", id: "births", key: "BIRTHS%d"},
-        {name: "Deaths", id: "deaths", key: "DEATHS%d"},
-        {name: "Natural Increase", id: "natinc", key: "NATURALINC%d", format: "+,"},
-        {name: "Int'l Migration", id: "intlmig", key: "INTERNATIONALMIG%d", format: "+,"},
-        {name: "Domestic Migration", id: "domesticmig", key: "DOMESTICMIG%d", format: "+,"},
-        {name: "Net Migration", id: "netmig", key: "NETMIG%d", format: "+,"},
-        {name: "Residual", id: "residual", key: "RESIDUAL%d", format: "+,"},
-        {name: "Birth Rate", id: "birthrate", key: "RBIRTH%d", years: [2011], format: percent},
-        {name: "Death Rate", id: "deathrate", key: "RDEATH%d", years: [2011], format: percent},
-        {name: "Natural Increase Rate", id: "natincrate", key: "RNATURALINC%d", years: [2011], format: percent},
-        {name: "Int'l Migration Rate", id: "intlmigrate", key: "RINTERNATIONALMIG%d", years: [2011], format: percent},
-        {name: "Net Domestic Migration Rate", id: "domesticmigrate", key: "RDOMESTICMIG%d", years: [2011], format: percent},
-        {name: "Net Migration Rate", id: "netmigrate", key: "RNETMIG%d", years: [2011], format: percent},
+        {name: "Population Estimate", id: "9am", key: "9%d"},
+        {name: "Population Change", id: "10am", key: "10%d", format: "+,"},
+        {name: "Births", id: "11am", key: "11%d"},
+        {name: "Deaths", id: "12pm", key: "12%d"},
+        {name: "Natural Increase", id: "1pm", key: "13%d", format: "+,"},
+        {name: "Int'l Migration", id: "2pm", key: "14%d", format: "+,"},
+        {name: "Domestic Migration", id: "3pm", key: "15%d", format: "+,"},
+        {name: "Net Migration", id: "4pm", key: "16%d", format: "+,"},
+        {name: "Residual", id: "5pm", key: "17%d", format: "+,"},
+        {name: "Birth Rate", id: "6pm", key: "18%d", format: "+,"},
+        {name: "Death Rate", id: "7pm", key: "19%d", format: "+,"},
+        {name: "Natural Increase Rate", id: "8pm", key: "20%d", format: "+,"},
+        {name: "Int'l Migration Rate", id: "9pm", key: "21%d", format: "+,"},
+        {name: "Net Domestic Migration Rate", id: "10pm", key: "22%d", format: "+,"},
+        {name: "Net Migration Rate", id: "11pm", key: "23%d", format: "+,"}
     ],
-    years = [2010, 2011],
+    attributes = ["SUM", "PERCENT", "SA"],
     fieldsById = d3.nest()
         .key(function(d) { return d.id; })
         .rollup(function(d) { return d[0]; })
         .map(fields),
     field = fields[1],
-    year = years[0],
+    attribute = attributes[0],
+    colorYear = attributes[0],
+    shapeYear = attributes[0],
     colors = d3.schemeBlues[4]
         .map(function(rgb) { return d3.hsl(rgb); });
 
-
 var smallMultiple=[];
 
+var barchartDrawn = false;
 
 var body = d3.select("body"),
     stat = d3.select("#status");
@@ -46,12 +43,11 @@ var body = d3.select("body"),
 var fieldSelect = d3.select("#ex1")
     .on("change", function(e) {
         field = fields[this.value];
-        location.hash = "#" + [field.id, year].join("/");
-        var output = document.getElementById("Indicator");
+        location.hash = "#" + [field.id, attribute].join("/");
+        var output = document.getElementById("IndicatorRaw");
         output.innerHTML = currentKey;
+
     });
-
-
 
 fieldSelect.selectAll("range")
     .data(fields)
@@ -60,14 +56,14 @@ fieldSelect.selectAll("range")
     .attr("value", function(d) { return d.id; })
     .text(function(d) { return d.name; });
 
-var yearSelect = d3.select("#year")
+var attributeSelect = d3.select("#year")
     .on("change", function(e) {
-        year = years[this.selectedIndex];
-        location.hash = "#" + [field.id, year].join("/");
+        attribute = attributes[this.selectedIndex];
+        location.hash = "#" + [field.id, attribute].join("/");
     });
 
-yearSelect.selectAll("range")
-    .data(years)
+attributeSelect.selectAll("range")
+    .data(attributes)
     .enter()
     .append("range")
     .attr("value", function(y) { return y; })
@@ -79,6 +75,8 @@ var map = d3.select("#map"),
     states = layer.append("g")
         .attr("id", "states")
         .selectAll("path");
+
+var statesArray;
 
 var translation = [-38, 32],
     scaling = 0.94;
@@ -111,9 +109,10 @@ var segmentized = location.search === "?segmentized",
     ].join("/");
 
 d3.json(url, function(topo) {
+    var dataURL = document.getElementById('dataurl').value;
     topology = topo;
     geometries = topology.objects.states.geometries;
-    d3.csv("data/nst_2011.csv", function(data) {
+    d3.csv(dataURL, function(data) {
         rawData = data;
         dataById = d3.nest()
             .key(function(d) { return d.NAME; })
@@ -142,7 +141,8 @@ function init() {
 
     states.append("title");
 
-
+    statesArray = states.data()
+        .map(function(d){return d.properties["NAME"];});
     ////init bar
 
 
@@ -168,38 +168,55 @@ function reset() {
             return d.properties.NAME;
         });
 }
-var statesArray,currentValue,currentKey;
+
+var currentValue,currentKey;
+
 function update() {
     var start = Date.now();
     body.classed("updating", true);
 
-    var key = field.key.replace("%d", year),
+    //default color is based on SUM
+    colorYear === 'undefined' ? colorYear = attribute[0] : colorYear;
+    shapeYear === 'undefined' ? shapeYear = attribute[0] : shapeYear;
+
+    var key = field.key.replace("%d", shapeYear),
         fmt = (typeof field.format === "function")
             ? field.format
             : d3.format(field.format || ","),
         value = function(d) {
             return +d.properties[key];
         },
-
         values = states.data()
             .map(value)
             .filter(function(n) {
                 return !isNaN(n);
             }),
-        lo = Math.min.apply(Math, values);
-        hi = Math.max.apply(Math, values);
-        currentValue = values;
-        statesArray = states.data()
-            .map(function(d){return d.properties["NAME"];});
-        currentKey = key;
-    document.getElementById("Indicator").innerHTML = currentKey;
+        lo = Math.min.apply(Math, values),
+        hi = Math.max.apply(Math, values),
+        colorKey = field.key.replace("%d", colorYear),
+        colorValue = function(d){
+            return +d.properties[colorKey];
+        };
 
+    currentValue = values;
+    currentKey = key;
+
+    var colorValues = states.data()
+            .map(colorValue)
+            .filter(function(n) {
+                return !isNaN(n);
+        }),
+        colorLo = Math.min.apply(Math, colorValues),
+        colorHi = Math.max.apply(Math, colorValues)
+        ;
+
+    document.getElementById("IndicatorRaw").innerHTML = currentKey;
 
     var color = d3.scaleLinear()
         .range(colors)
-        .domain(lo < 0
-            ? [lo, 0, hi]
-            : [lo, d3.mean(values), hi]);
+        .domain( colorLo < 0
+            ? [ colorLo, 0, colorHi]
+            : [ colorLo, d3.mean( colorValues), colorHi]);
 
     // normalize the scale to positive numbers
     var scale = d3.scaleLinear()
@@ -225,7 +242,7 @@ function update() {
         .duration(750)
         .ease(d3.easeLinear)
         .attr("fill", function(d) {
-            return color(value(d));
+            return color( colorValue(d));
         })
         .attr("d", carto.path);
 
@@ -233,8 +250,13 @@ function update() {
     stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
     body.classed("updating", false);
 
+    //drawBarChart();
     //update bar
-    updateBars(values,false);
+    if (barchartDrawn) {
+        updateBars(values, false);
+    }
+
+    setAnnotation();
 
 }
 
@@ -250,6 +272,7 @@ var deferredUpdate = (function() {
     };
 })();
 
+
 var hashish = d3.selectAll("a.hashish")
     .datum(function() {
         return this.href;
@@ -258,39 +281,38 @@ var hashish = d3.selectAll("a.hashish")
 function parseHash() {
     var parts = location.hash.substr(1).split("/"),
         desiredFieldId = parts[0],
-        desiredYear = +parts[1];
 
     field = fieldsById.get(desiredFieldId) || fields[1];
-    year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
+    attribute = (attributes.indexOf(shapeYear) > -1) ? shapeYear : attributes[0];
 
     fieldSelect.property("selectedIndex", fields.indexOf(field));
 
     if (field.id === "none") {
 
-        yearSelect.attr("disabled", "disabled");
+        attributeSelect.attr("disabled", "disabled");
         reset();
 
     } else {
 
-        if (field.years) {
-            if (field.years.indexOf(year) === -1) {
-                year = field.years[0];
+        if (field.attributes) {
+            if (field.attributes.indexOf(attribute) === -1) {
+                attribute = field.attributes[0];
             }
-            yearSelect.selectAll("option")
+            attributeSelect.selectAll("option")
                 .attr("disabled", function(y) {
-                    return (field.years.indexOf(y) === -1) ? "disabled" : null;
+                    return (field.attributes.indexOf(y) === -1) ? "disabled" : null;
                 });
         } else {
-            yearSelect.selectAll("option")
+            attributeSelect.selectAll("option")
                 .attr("disabled", null);
         }
 
-        yearSelect
-            .property("selectedIndex", years.indexOf(year))
+        attributeSelect
+            .property("selectedIndex", attributes.indexOf(attribute))
             .attr("disabled", null);
 
         deferredUpdate();
-        location.replace("#" + [field.id, year].join("/"));
+        location.replace("#" + [field.id, attribute].join("/"));
 
         hashish.attr("href", function(href) {
             return href + location.hash;
@@ -299,52 +321,25 @@ function parseHash() {
 }
 
 
-//TODO DI
-var tabulate = function (data,columns) {
-    var table = d3.select('#panel-left').append('table')
-    var thead = table.append('thead')
-    var tbody = table.append('tbody')
+//use this to change what attribute encodes color; default is sum
+var tabulateColor = function (data) {
+    colorYear = attributes[data];
 
-    thead.append('tr')
-        .selectAll('th')
-        .data(columns)
-        .enter()
-        .append('th')
-        .text(function (d) { return d })
-        .append("input")
-        .attr("type", "checkbox")
-        .style("float","left")
-
-    var rows = tbody.selectAll('tr')
-        .data(data)
-        .enter()
-        .append('tr')
-
-    var cells = rows.selectAll('td')
-        .data(function(row) {
-            return columns.map(function (column) {
-                return { column: column, value: row[column] }
-            })
-        })
-        .enter()
-        .append('td')
-        .text(function (d) { return d.value })
-
-    return table;
+    parseHash();
 }
 
-d3.csv('https://gist.githubusercontent.com/dyr429/28115a3ee46500e761c0a4fcd16482ca/raw/ac9eb57fd76c11df6f6505b0802dffd29926a1c6/tweets_sample',function (data) {
-    // append table test
-    var columns = ['State','Hour','Content']
-    tabulate(data,columns)
-})
+var tabulateShape = function (data) {
+    shapeYear = attributes[data];
+
+    parseHash();
+}
 
 var animationPlay;
 var playStatus = false;
 function tick(){
     var sliderControl = document.getElementById("ex1");
     field = fields[sliderControl.value];
-    location.hash = "#" + [field.id, year].join("/");
+    location.hash = "#" + [field.id, attribute].join("/");
     var output = document.getElementById("Indicator");
     output.innerHTML = sliderControl.value;
 }
@@ -360,7 +355,7 @@ function startPlay() {
             else{
                 stopPlay();
                 document.getElementById("ex1").value = "1";
-               document.getElementById("Indicator").innerHTML = "1";
+                document.getElementById("Indicator").innerHTML = "1";
                 document.getElementById("playButton").className = "play";
                 playStatus = false;
                 tick();
@@ -404,6 +399,8 @@ var xScale,yScale,canvas,yAxisHandleForUpdate,yAxis,margin,width,height,tooltip,
 var activeData = [];
 var drawBarChart = function () {
 
+         //statesArray = states.data()
+           // .map(function(d){return d.properties["NAME"];});
         // Define dimensions of vis
          margin = { top: 30, right: 50, bottom: 100, left: 100 };
             width  = 800 - margin.left - margin.right;
@@ -614,8 +611,8 @@ function initialBarChart() {
     var barchart = document.getElementById("barvis");
     if(barchart == null){
         drawBarChart();
+        barchartDrawn = true;
     }
-
 
 }
 
@@ -661,3 +658,26 @@ function drawInlineSVG(ctx, rawSVG, callback) {
     img.src = url;
 }
 
+function setAnnotation() {
+    var timeinterval = document.getElementById('time-interval').value;
+    var shapeAttr = document.getElementById('shapeAttr').value;
+    var colorAttr = document.getElementById('colorAttr').value;
+    var numb = currentKey.match(/\d/g);
+    numb = numb.join("");
+    document.getElementById("Indicator").innerHTML = timeinterval + '&nbsp' +":" + numb + "&nbsp" +
+        ", Shape: " + shapeAttr + "&nbsp" + ",Color: " + colorAttr;
+
+}
+
+// function activaTab(tab){
+//     $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+// };
+// function submitData() {
+//     reload_js("js/home.js")
+//     activaTab('menu1');
+// }
+//
+// function reload_js(src) {
+//     $('script[src="' + src + '"]').remove();
+//     $('<script>').attr('src', src).appendTo('head');
+// }
