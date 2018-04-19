@@ -515,8 +515,14 @@ var updateBars = function(data,initial) {
             hoveredState = states.filter(function (e){
                 return statesArray[i]==e["id"];
             });
-            previousColor=hoveredState.style("fill");
-            hoveredState.attr("fill", "greenyellow");
+            if(hoveredState.style("fill")!='rgb(255, 165, 0)') {
+                previousColor = hoveredState.style("fill");
+
+                hoveredState.attr("fill", "greenyellow");
+            }
+            else{
+                console.log("it is orange")
+            }
 
         })
         .on("mouseout", function(d){
@@ -558,7 +564,7 @@ function highlightBrushedBars() {
         var brush_coords = d3.brushSelection(d3.select("#barvis").select(".brush").node());
 
 
-        // style brushed circles
+        // style brushed states
         filtedBars = bars.filter(function (d,i){
 
             var cx = d3.select(this).attr("x");
@@ -571,7 +577,7 @@ function highlightBrushedBars() {
             .attr("class", "bar-brushed");
 
 
-        console.log(activeData);
+
 
         states.filter(function (d){
 
@@ -669,15 +675,3 @@ function setAnnotation() {
 
 }
 
-// function activaTab(tab){
-//     $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-// };
-// function submitData() {
-//     reload_js("js/home.js")
-//     activaTab('menu1');
-// }
-//
-// function reload_js(src) {
-//     $('script[src="' + src + '"]').remove();
-//     $('<script>').attr('src', src).appendTo('head');
-// }

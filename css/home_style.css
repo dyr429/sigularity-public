@@ -69,7 +69,7 @@ form, form > * {
 
 path.state {
     stroke: #666;
-    stroke-width: 1;
+    stroke-width: 1px;
 }
 
 path.state:hover {

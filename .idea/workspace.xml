@@ -4,8 +4,6 @@
     <list default="true" id="494d6c93-44a7-4290-8369-b53783dd0fc9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/css/home_style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/home_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/style5.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/panel_style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/home.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/home.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,8 +21,8 @@
       <file leaf-file-name="home.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="191" column="53" selection-start-line="191" selection-start-column="53" selection-end-line="191" selection-end-column="53" />
+            <state relative-caret-position="280">
+              <caret line="237" column="62" selection-start-line="237" selection-start-column="62" selection-end-line="237" selection-end-column="62" />
             </state>
           </provider>
         </entry>
@@ -32,8 +30,8 @@
       <file leaf-file-name="home.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/home.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-56">
-              <caret line="488" column="16" selection-start-line="488" selection-start-column="8" selection-end-line="488" selection-end-column="16" />
+            <state relative-caret-position="280">
+              <caret line="517" column="59" selection-start-line="517" selection-start-column="59" selection-end-line="517" selection-end-column="59" />
             </state>
           </provider>
         </entry>
@@ -41,8 +39,8 @@
       <file leaf-file-name="home_style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/home_style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="589">
-              <caret line="300" column="1" lean-forward="true" selection-start-line="300" selection-start-column="1" selection-end-line="300" selection-end-column="1" />
+            <state relative-caret-position="280">
+              <caret line="235" column="6" selection-start-line="235" selection-start-column="1" selection-end-line="235" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -60,12 +58,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mouseover</find>
-      <find>state</find>
-      <find>stro</find>
-      <find>yellow</find>
-      <find>path</find>
-      <find>years</find>
       <find>year</find>
       <find>color-input</find>
       <find>Total</find>
@@ -85,11 +77,17 @@
       <find>update</find>
       <find>^</find>
       <find>d3.csv</find>
-      <find>input-group</find>
       <find>submit</find>
       <find>.csv</find>
       <find>Singularity</find>
       <find>rgb</find>
+      <find>input-group</find>
+      <find>non-brush</find>
+      <find>state</find>
+      <find>fill</find>
+      <find>previous</find>
+      <find>previousColor</find>
+      <find>log</find>
     </findStrings>
     <replaceStrings>
       <replace>value</replace>
@@ -115,9 +113,9 @@
         <option value="$PROJECT_DIR$/css/buttons.css" />
         <option value="$PROJECT_DIR$/js/home_animation.js" />
         <option value="$PROJECT_DIR$/css/about.css" />
+        <option value="$PROJECT_DIR$/home.html" />
         <option value="$PROJECT_DIR$/css/home_style.css" />
         <option value="$PROJECT_DIR$/js/home.js" />
-        <option value="$PROJECT_DIR$/home.html" />
       </list>
     </option>
   </component>
@@ -222,12 +220,12 @@
       <workItem from="1523519364814" duration="727000" />
       <workItem from="1524017606174" duration="17678000" />
       <workItem from="1524035470023" duration="21869000" />
-      <workItem from="1524088086823" duration="8804000" />
+      <workItem from="1524088086823" duration="10714000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104521000" />
+    <option name="totallyTimeSpent" value="106431000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1056" extended-state="6" />
@@ -470,22 +468,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/home_style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="300" column="1" lean-forward="true" selection-start-line="300" selection-start-column="1" selection-end-line="300" selection-end-column="1" />
+        <state relative-caret-position="280">
+          <caret line="235" column="6" selection-start-line="235" selection-start-column="1" selection-end-line="235" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="191" column="53" selection-start-line="191" selection-start-column="53" selection-end-line="191" selection-end-column="53" />
+        <state relative-caret-position="280">
+          <caret line="237" column="62" selection-start-line="237" selection-start-column="62" selection-end-line="237" selection-end-column="62" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/home.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-56">
-          <caret line="488" column="16" selection-start-line="488" selection-start-column="8" selection-end-line="488" selection-end-column="16" />
+        <state relative-caret-position="280">
+          <caret line="517" column="59" selection-start-line="517" selection-start-column="59" selection-end-line="517" selection-end-column="59" />
         </state>
       </provider>
     </entry>
